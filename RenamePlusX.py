@@ -61,36 +61,27 @@ def set_file_dir():
         btn_dir.config(image=img_dir_off, text='Off 仅文件')
         set_file_dir = False
 
-def readini():
-    cfg_read = ConfigParser()
-    # 如果有中文 或 特别的字符, 最好还是选 GBK 编码, utf-8 读取中文时会报错
-    cfg_read.read(os.path.join(cfg_path, 'setting.ini'), encoding='GBK')
-    lst_config_items = []
-    lst_config_key = []
+
+def readtxt():
     lst_config_value = []
-    for s in list(cfg_read.items('Del_String_List')):
-        lst_config_items.append(s)
-    for i in range(len(lst_config_items)):
-        lst_config_key.append(lst_config_items[i][0])
-        lst_config_value.append(lst_config_items[i][1])
-    for v in range(len(lst_config_value)):
-        text_del.insert(tk.END, str(lst_config_value[v]) + '\n')
+    with open('setting.txt', 'r', encoding='utf-8') as f1:
+        for line in f1.readlines():
+            lst_config_value.append(line)
+
+        for v in lst_config_value:
+            text_del.insert(tk.END, str(v))
     return lst_config_value
 
-def quit_setini():
-    cfg_set = ConfigParser()
-    # 如果有中文 或 特别的字符, 最好还是选 GBK 编码, utf-8 读取中文时会报错
-    cfg_set.read(os.path.join(cfg_path, 'setting.ini'), encoding='GBK')
-    # 获取 text_del 中的全部字符串( t 是一整个长字符串 )
-    t = text_del.get('0.0','end')
+def quit_set():
+    t = text_del.get('0.0', 'end')
     text_del_strings = t.split('\n')
     text_del_strings = set(text_del_strings)
     text_del_strings = list(text_del_strings)
     while text_del_strings.count('')>0:
         text_del_strings.remove('')
-    for v in range(len(text_del_strings)):
-        cfg_set.set('Del_String_List', str('s'+str(v)), text_del_strings[v])
-    cfg_set.write(open('setting.ini', 'w'))
+    with open('setting.txt', 'w+', encoding='utf-8') as f2:
+        for line in text_del_strings:
+            f2.write(str(line)+'\n')
     win.quit()
 
 
@@ -203,10 +194,11 @@ btn_dir.grid( row=1, column=0, sticky=tk.W, padx=20, pady=20, ipadx=20, ipady=20
 btn_play = tk.Button(win, command=rename_file_dir, bg='white', image=img_play, cursor='star', relief='flat')
 btn_play.grid( row=1, column=1 )
 
-btn_quit = tk.Button(win, command=quit_setini, bg='white', image=img_quit_on, relief='flat')
+btn_quit = tk.Button(win, command=quit_set, bg='white', image=img_quit_on, relief='flat')
 btn_quit.grid( row=1, column=2, sticky=tk.E, padx=20, pady=20, ipadx=20, ipady=20 )
 
 # 启动时自动读取 setting.ini 中的原有特殊字符串
-lst_delstr = readini()
+lst_delstr = readtxt()
 
 win.mainloop()
+
