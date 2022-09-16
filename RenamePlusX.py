@@ -30,10 +30,10 @@ win.attributes("-alpha", 0.9)                 # 设置窗口透明度，透明�
 win.resizable(True,False)                     # 窗体设置为False,则不可改变大小(X,Y)
 
 # ---------------------------- 导入全部图片素材 -----------------------------
-img_play = tk.PhotoImage(file='./Resources/img_play.png')
-img_dir_on = tk.PhotoImage(file='./Resources/img_dir_on.png')
-img_dir_off = tk.PhotoImage(file='./Resources/img_dir_off.png')
-img_quit_on = tk.PhotoImage(file='./Resources/img_quit_on.png')
+img_play = tk.PhotoImage(file='./img_play.png')
+img_dir_on = tk.PhotoImage(file='./img_dir_on.png')
+img_dir_off = tk.PhotoImage(file='./img_dir_off.png')
+img_quit_on = tk.PhotoImage(file='./img_quit_on.png')
 
 # ------------ 放置 text 控件,用来显示和增改需要去除的特殊字符串 -------------
 
